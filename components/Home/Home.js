@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Header from './Header';
 import Roads from '../Roads/Home';
 import Rubbish from '../Rubbish/Home';
+import Picker from '../Roads/Picker'
 // import MapTemplate from '../Global/Map'
 
 import Menu from './Menu'
@@ -11,7 +12,6 @@ import Menu from './Menu'
 import { createStackNavigator } from 'react-navigation'; // Version can be specified in package.json
 
 import StatusBar from '../Global/StatusBar'
-
 
 import {
   View,
@@ -21,6 +21,23 @@ import {
 } from 'react-native';
 
 export class Home extends Component {
+
+  static navigationOptions = {
+    title: 'Home',
+    headerStyle: {
+      backgroundColor: '#f4511e',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = { isShowingText: true };
+  }
+
   render() {
     return (
       <React.Fragment>
@@ -49,6 +66,14 @@ const RootStack = createStackNavigator(
         title: "Roads"
       }
     },
+
+    RoadsMapPicker: {
+      screen: Picker,
+      navigationOptions: {
+        title: "Roads picker"
+      }
+    },
+
     Rubbish: {
       screen: Rubbish,
       navigationOptions: {

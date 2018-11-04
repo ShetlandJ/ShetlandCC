@@ -7,11 +7,13 @@ import {
   StyleSheet,
 } from 'react-native';
 
+import Menu from './Menu';
+
 export default class Rubbish extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>I'm the Rubbish component</Text>
+        <Menu />
       </View>
     );
   }

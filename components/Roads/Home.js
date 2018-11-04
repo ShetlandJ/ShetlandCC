@@ -14,7 +14,9 @@ export default class Roads extends Component {
 
     return (
       <View style={styles.container}>
-        <Menu />
+        <Menu 
+          navigation={this.props.navigation}
+        />
       </View>
     );
   }

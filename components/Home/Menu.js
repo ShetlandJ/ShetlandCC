@@ -20,7 +20,6 @@ export default class Menu extends Component {
 
   render() {
     const { navigate } = this.props.navigation;
-    // console.log(this.props, "props is here");
 
     return (
       <React.Fragment>
@@ -29,8 +28,10 @@ export default class Menu extends Component {
 
           <TouchableHighlight
             style={styles.container}
-            onPress={() => navigate('Roads')}>
-            <MenuItem name='car' text='Roads' />
+            onPress={() => navigate('Roads')}
+            navigation={navigate}
+            >
+            <MenuItem name='road' text='Roads' />
           </TouchableHighlight>
 
           <TouchableHighlight
@@ -54,13 +55,13 @@ export default class Menu extends Component {
           <TouchableHighlight
             style={styles.container}
             onPress={() => navigate('Roads')}>
-            <MenuItem name='ship' text='Ferry timetables' />
+            <MenuItem name='ship' text='Ferries' />
           </TouchableHighlight>
 
           <TouchableHighlight
             style={styles.container}
             onPress={() => navigate('Roads')}>
-            <MenuItem name='bus' text='Bus timetables' />
+            <MenuItem name='bus' text='Busses' />
           </TouchableHighlight>
 
           <TouchableHighlight
@@ -89,18 +90,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    alignItems: 'flex-start'
+    alignItems: 'flex-start',
+    height: 100,
+    paddingTop: 10
   },
   container: {
-    // flex: 1,
-    height: 125,
     width: '40%',
-    // backgroundColor: 'red',
     margin: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },
-
-
 
 });

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { FontAwesome } from "@expo/vector-icons"
 import MenuItem from './MenuItem'
 import { Col, Row, Grid } from "react-native-easy-grid";
-import {TouchableHighlight} from 'react-native'
 
 import {
   View,
@@ -12,31 +11,30 @@ import {
 
 export default class Menu extends Component {
   render() {
-    const { navigate } = this.props.navigation;
-
     return (
-      <React.Fragment>
-
         <View style={styles.menu}>
 
-          <TouchableHighlight
-            style={styles.container}
-            onPress={() => navigate('Picker')}
-            >
-            <Text>TEST TES TES TES TES TS </Text>
-          </TouchableHighlight>
-
-
-
           <MenuItem
-            text="Poor road surface"
+            text="Bulk waste collection"
           />
 
           <MenuItem
-            text="Road sign faults"
+            text="Litter in a public place"
           />
+
+          <MenuItem
+            text="Fly tipping"
+          />
+
+          <MenuItem
+            text="Dead animal uplift"
+          />
+
+          <MenuItem
+            text="Missed home bin collection"
+          />
+
         </View>
-        </React.Fragment>
     );
   }
 }
