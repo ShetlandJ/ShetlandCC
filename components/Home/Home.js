@@ -10,9 +10,6 @@ import Menu from './Menu'
 
 import { createStackNavigator } from 'react-navigation'; // Version can be specified in package.json
 
-import StatusBar from '../Global/StatusBar'
-import Spinner from '../Global/Spinner';
-
 import {
   View,
   Text,

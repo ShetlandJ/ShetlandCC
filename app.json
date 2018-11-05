@@ -26,13 +26,5 @@
     "ios": {
       "supportsTablet": true
     },
-    "android": {
-      "package": "com.sigh.name",
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyB4iNnQ7LQUfbz0YUAzKTLh-d6AdCfyIDY"
-        }
-      }
-    }
   }
 }

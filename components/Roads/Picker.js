@@ -4,6 +4,18 @@ import { Constants, MapView, Location, Permissions } from 'expo';
 import Spinner from '../Global/Spinner';
 
 export default class Picker extends Component {
+
+    static navigationOptions = {
+        title: 'Pick location',
+        headerStyle: {
+            backgroundColor: '#0F68C9',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+    };
+
     state = {
         mapRegion: { latitude: 0, longitude: 0, latitudeDelta: 0.25, longitudeDelta: 0.25 },
         hasLocationPermissions: false,
@@ -18,8 +30,8 @@ export default class Picker extends Component {
     }
 
     _handleMapRegionChange = mapRegion => {
-        this.setState({ mapRegion });
-        this.getPlace()
+        // this.setState({ mapRegion });
+        this.getPlace(mapRegion)
     };
 
     _getLocationAsync = async () => {
@@ -40,25 +52,21 @@ export default class Picker extends Component {
         this.setState({ loading: false })
     };
 
-    getPlace() {
+    getPlace = mapRegion => {
+        this.setState({ mapRegion });
+
         let url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.mapRegion.latitude + ',' + this.state.mapRegion.longitude + '&key=' + 'AIzaSyB4iNnQ7LQUfbz0YUAzKTLh-d6AdCfyIDY'
         fetch(url)
+        
             .then((response) => response.json())
             .then((responseJson) => {
-                if (responseJson.results[0]) {
-                    this.setState({ address: JSON.stringify(responseJson.results[0]['address_components']) });
-                }
 
-                let fullAddress = ''
-                for (var addressLine of responseJson.results[0]['address_components']) {
-                    fullAddress += addressLine['long_name'] + " "
-                }
-
-                console.log(this.state.address);
-
+                console.log(url);
+                
+                // console.log(responseJson.results[0]['formatted_address']);
 
                 this.setState({
-                    fullAddress: fullAddress
+                    fullAddress: responseJson.results[0]['formatted_address']
                 })
 
             })
@@ -75,8 +83,6 @@ export default class Picker extends Component {
             )
         } else if (!this.state.loading) {
 
-
-
             return (
                 <View style={styles.container}
                 >
@@ -89,14 +95,9 @@ export default class Picker extends Component {
                                 this.state.mapRegion === null ?
                                     <Text>Map region doesn't exist.</Text> :
                                     <MapView
-                                        style={{ alignSelf: 'stretch', height: 250 }}
+                                        style={{ alignSelf: 'stretch', height: 350 }}
                                         region={this.state.mapRegion}
-                                        onRegionChangeComplete={this._handleMapRegionChange}
-                                        draggable
-                                        onSelect={() => console.log('onSelect', arguments)}
-                                        onDrag={() => console.log('onDrag', arguments)}
-                                        onDragStart={() => console.log('onDragStart', arguments)}
-
+                                        onRegionChangeComplete={this.getPlace}
                                     >
                                         <MapView.Marker
                                             coordinate={
@@ -108,10 +109,10 @@ export default class Picker extends Component {
                     }
 
                     <Text>
-                        Lat: {this.state.mapRegion.latitude}
+                        {this.state.mapRegion.latitude}
                     </Text>
                     <Text>
-                        Long: {this.state.mapRegion.longitude}
+                        {this.state.mapRegion.longitude}
                     </Text>
                     <Text>
                         Address: {this.state.fullAddress}
