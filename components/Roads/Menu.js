@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesome } from "@expo/vector-icons"
 import MenuItem from './MenuItem'
 import { Col, Row, Grid } from "react-native-easy-grid";
-import {TouchableHighlight} from 'react-native'
+import { TouchableHighlight, TouchableOpacity } from 'react-native'
 
 import {
   View,
@@ -12,20 +12,19 @@ import {
 
 export default class Menu extends Component {
   render() {
-    const { navigate } = this.props.navigation;
+    // const { navigate } = this.props.navigation;
 
     return (
       <React.Fragment>
 
         <View style={styles.menu}>
 
-          <TouchableHighlight
+          <TouchableOpacity
             style={styles.container}
-            onPress={() => navigate('Picker')}
-            >
-            <Text>TEST TES TES TES TES TS </Text>
-          </TouchableHighlight>
-
+            onPress={() => this.props.navigation.push('RoadsMapPicker')}
+          >
+              <MenuItem text="Potholes" />
+          </TouchableOpacity>
 
 
           <MenuItem
@@ -36,7 +35,7 @@ export default class Menu extends Component {
             text="Road sign faults"
           />
         </View>
-        </React.Fragment>
+      </React.Fragment>
     );
   }
 }

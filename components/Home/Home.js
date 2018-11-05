@@ -25,7 +25,7 @@ export class Home extends Component {
   static navigationOptions = {
     title: 'Home',
     headerStyle: {
-      backgroundColor: '#f4511e',
+      backgroundColor: '#0F68C9',
     },
     headerTintColor: '#fff',
     headerTitleStyle: {
@@ -41,8 +41,6 @@ export class Home extends Component {
   render() {
     return (
       <React.Fragment>
-        <StatusBar />
-        <Header />
         <Menu
           navigation={this.props.navigation}
         />
@@ -51,50 +49,59 @@ export class Home extends Component {
   }
 }
 
-const RootStack = createStackNavigator(
+// const RootStack = createStackNavigator(
+//   {
+//     Home: {
+//       screen: Home,
+//       navigationOptions: {
+//         header: null
+//       }
+//     },
+
+//     Roads: {
+//       screen: Roads,
+//       navigationOptions: {
+//         title: "Roads"
+//       }
+//     },
+
+//     RoadsMapPicker: {
+//       screen: Picker,
+//       navigationOptions: {
+//         title: "Roads picker"
+//       }
+//     },
+
+//     Rubbish: {
+//       screen: Rubbish,
+//       navigationOptions: {
+//         title: "Litter & Rubbish"
+//       }
+//     },
+//     //
+//     // Map: {
+//     //   screen: MapTemplate,
+//     //   navigationOptions: {
+//     //     title: "Litter & Rubbish"
+//     //   }
+//     // },
+//   }
+
+// );
+
+const Nav = createStackNavigator(
   {
-    Home: {
-      screen: Home,
-      navigationOptions: {
-        header: null
-      }
-    },
-
-    Roads: {
-      screen: Roads,
-      navigationOptions: {
-        title: "Roads"
-      }
-    },
-
-    RoadsMapPicker: {
-      screen: Picker,
-      navigationOptions: {
-        title: "Roads picker"
-      }
-    },
-
-    Rubbish: {
-      screen: Rubbish,
-      navigationOptions: {
-        title: "Litter & Rubbish"
-      }
-    },
-    //
-    // Map: {
-    //   screen: MapTemplate,
-    //   navigationOptions: {
-    //     title: "Litter & Rubbish"
-    //   }
-    // },
+    Home: Home,
+    Roads: Roads,
+    RoadsMapPicker: Picker,
+    Rubbish: Rubbish
   }
-
 );
 
 
 export default class App extends React.Component {
   render() {
-    return <RootStack />;
+    return <Nav />;
   }
 }
 

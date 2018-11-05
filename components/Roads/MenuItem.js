@@ -12,11 +12,9 @@ import {
 export default class MenuItem extends Component {
   render() {
     return (
-      <TouchableHighlight underlayColor="white">
         <View style={styles.button}>
           <Text style={styles.buttonText}>{this.props.text}</Text>
         </View>
-      </TouchableHighlight>
     );
   }
 }
