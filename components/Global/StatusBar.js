@@ -1,6 +1,6 @@
 'use strict'
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Platform, StatusBar} from 'react-native';
+import {View, Text, StyleSheet, Platform, } from 'react-native';
 
 
 class StatusBarBackground extends Component{
@@ -13,7 +13,7 @@ class StatusBarBackground extends Component{
 
 const styles = StyleSheet.create({
   statusBarBackground: {
-    paddingTop: Platform.OS === 'ios' ? 0 : StatusBar.currentHeight,
+    paddingTop: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
     backgroundColor: 'white',
   }
 

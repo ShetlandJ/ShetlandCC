@@ -8,9 +8,19 @@ import {
 } from 'react-native';
 
 export default class Roads extends Component {
+
+  static navigationOptions = {
+    title: 'Roads',
+    headerStyle: {
+      backgroundColor: '#0F68C9',
+    },
+    headerTintColor: '#fff',
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  };
   render() {
     const { navigate } = this.props.navigation;
-    // console.log(this.props, "props is here");
 
     return (
       <View style={styles.container}>

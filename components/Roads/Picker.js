@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Constants, MapView, Location, Permissions } from 'expo';
+import Spinner from '../Global/Spinner';
 
 export default class Picker extends Component {
     state = {
@@ -8,7 +9,8 @@ export default class Picker extends Component {
         hasLocationPermissions: false,
         locationResult: null,
         address: null,
-        fullAddress: null
+        fullAddress: null,
+        loading: true
     };
 
     componentDidMount() {
@@ -35,6 +37,7 @@ export default class Picker extends Component {
 
         // Center the map on the location we just fetched.
         this.setState({ mapRegion: { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.003, longitudeDelta: 0.003 } });
+        this.setState({ loading: false })
     };
 
     getPlace() {
@@ -52,7 +55,7 @@ export default class Picker extends Component {
                 }
 
                 console.log(this.state.address);
-                
+
 
                 this.setState({
                     fullAddress: fullAddress
@@ -62,49 +65,63 @@ export default class Picker extends Component {
     }
 
     render() {
-        return (
-            <View style={styles.container}
-            >
 
-                {
-                    this.state.locationResult === null ?
-                        <Text>Finding your current location...</Text> :
-                        this.state.hasLocationPermissions === false ?
-                            <Text>Location permissions are not granted.</Text> :
-                            this.state.mapRegion === null ?
-                                <Text>Map region doesn't exist.</Text> :
-                                <MapView
-                                    style={{ alignSelf: 'stretch', height: 250 }}
-                                    region={this.state.mapRegion}
-                                    onRegionChangeComplete={this._handleMapRegionChange}
-                                    draggable
-                                    onSelect={() => console.log('onSelect', arguments)}
-                                    onDrag={() => console.log('onDrag', arguments)}
-                                    onDragStart={() => console.log('onDragStart', arguments)}
+        let display = ''
 
-                                >
-                                    <MapView.Marker
-                                        coordinate={
-                                            this.state.mapRegion
-                                        }
-                                    />
+        if (this.state.loading) {
+            return (
+                <Spinner />
 
-                                </MapView>
-                }
+            )
+        } else if (!this.state.loading) {
 
-                <Text>
-                    Lat: {this.state.mapRegion.latitude}
-                </Text>
-                <Text>
-                    Long: {this.state.mapRegion.longitude}
-                </Text>
-                <Text>
-                    Address: {this.state.fullAddress}
-                </Text>
 
-            </View>
 
-        );
+            return (
+                <View style={styles.container}
+                >
+
+                    {
+                        this.state.locationResult === null ?
+                            <Text>Finding your current location...</Text> :
+                            this.state.hasLocationPermissions === false ?
+                                <Text>Location permissions are not granted.</Text> :
+                                this.state.mapRegion === null ?
+                                    <Text>Map region doesn't exist.</Text> :
+                                    <MapView
+                                        style={{ alignSelf: 'stretch', height: 250 }}
+                                        region={this.state.mapRegion}
+                                        onRegionChangeComplete={this._handleMapRegionChange}
+                                        draggable
+                                        onSelect={() => console.log('onSelect', arguments)}
+                                        onDrag={() => console.log('onDrag', arguments)}
+                                        onDragStart={() => console.log('onDragStart', arguments)}
+
+                                    >
+                                        <MapView.Marker
+                                            coordinate={
+                                                this.state.mapRegion
+                                            }
+                                        />
+
+                                    </MapView>
+                    }
+
+                    <Text>
+                        Lat: {this.state.mapRegion.latitude}
+                    </Text>
+                    <Text>
+                        Long: {this.state.mapRegion.longitude}
+                    </Text>
+                    <Text>
+                        Address: {this.state.fullAddress}
+                    </Text>
+
+                </View>
+
+            );
+        }
+
     }
 }
 
