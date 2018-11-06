@@ -60,7 +60,7 @@ class Home extends Component {
 
 function mapStateToProps(state) {
   return {
-    address: state.address
+    placeName: state.placeName
   }
 }
 
