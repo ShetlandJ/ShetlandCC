@@ -17,12 +17,12 @@ export default class Picker extends Component {
     };
 
     state = {
-        mapRegion: { latitude: 0, longitude: 0, latitudeDelta: 0.25, longitudeDelta: 0.25 },
+        mapRegion: null,
         hasLocationPermissions: false,
         locationResult: null,
         address: null,
         fullAddress: null,
-        loading: true
+        loading: true,
     };
 
     componentDidMount() {
@@ -30,7 +30,6 @@ export default class Picker extends Component {
     }
 
     _handleMapRegionChange = mapRegion => {
-        // this.setState({ mapRegion });
         this.getPlace(mapRegion)
     };
 
@@ -47,23 +46,18 @@ export default class Picker extends Component {
         let location = await Location.getCurrentPositionAsync({});
         this.setState({ locationResult: JSON.stringify(location) });
 
-        // Center the map on the location we just fetched.
         this.setState({ mapRegion: { latitude: location.coords.latitude, longitude: location.coords.longitude, latitudeDelta: 0.003, longitudeDelta: 0.003 } });
         this.setState({ loading: false })
     };
 
     getPlace = mapRegion => {
-        this.setState({ mapRegion });
 
-        let url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + this.state.mapRegion.latitude + ',' + this.state.mapRegion.longitude + '&key=' + 'AIzaSyB4iNnQ7LQUfbz0YUAzKTLh-d6AdCfyIDY'
+        let url = 'https://maps.googleapis.com/maps/api/geocode/json?address=' + mapRegion.latitude + ',' + mapRegion.longitude + '&key=' + 'AIzaSyB4iNnQ7LQUfbz0YUAzKTLh-d6AdCfyIDY'
         fetch(url)
-        
+
             .then((response) => response.json())
             .then((responseJson) => {
-
-                console.log(url);
-                
-                // console.log(responseJson.results[0]['formatted_address']);
+                this.setState({ mapRegion });
 
                 this.setState({
                     fullAddress: responseJson.results[0]['formatted_address']
@@ -74,19 +68,16 @@ export default class Picker extends Component {
 
     render() {
 
-        let display = ''
-
         if (this.state.loading) {
             return (
                 <Spinner />
-
             )
+
         } else if (!this.state.loading) {
 
             return (
                 <View style={styles.container}
                 >
-
                     {
                         this.state.locationResult === null ?
                             <Text>Finding your current location...</Text> :
@@ -108,15 +99,11 @@ export default class Picker extends Component {
                                     </MapView>
                     }
 
-                    <Text>
-                        {this.state.mapRegion.latitude}
-                    </Text>
-                    <Text>
-                        {this.state.mapRegion.longitude}
-                    </Text>
-                    <Text>
-                        Address: {this.state.fullAddress}
-                    </Text>
+                    <View>
+                        <Text style={styles.address}>
+                            Address: {this.state.fullAddress}
+                        </Text>
+                    </View>
 
                 </View>
 
@@ -128,12 +115,9 @@ export default class Picker extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
-        // height: 200,
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        // paddingTop: Constants.statusBarHeight,
-        // backgroundColor: '#ecf0f1',
+    },
+    address: {
+        fontSize: 20
     },
     paragraph: {
         margin: 24,
