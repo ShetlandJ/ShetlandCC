@@ -101,7 +101,10 @@ export default class Picker extends Component {
 
                     <View>
                         <Text style={styles.address}>
-                            Address: {this.state.fullAddress}
+                            Address:
+                            </Text>
+                        <Text>
+                            {this.state.fullAddress}
                         </Text>
                     </View>
 

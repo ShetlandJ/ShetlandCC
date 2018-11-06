@@ -1,9 +1,17 @@
-import React, { Component } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { AppLoading, Asset, Font, Icon } from 'expo';
-import AppNavigator from './navigation/AppNavigator';
-import Home from './components/Home/Home';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { createStackNavigator } from 'react-navigation'; // Version can be specified in package.json
 
+import { AppLoading, Asset, Font, Icon } from 'expo';
+import Home from './components/Home/Home';
+import Roads from './components/Roads/Home';
+import Rubbish from './components/Rubbish/Home';
+import Picker from './components/Roads/Picker'
+import { Provider } from 'react-redux'
+import reducer from './reducers/placeReducer';
+import { createStore } from 'redux'
+
+const store = createStore(reducer);
 
 export default class App extends React.Component {
   state = {
@@ -21,10 +29,9 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <Home></Home>
-        </View>
+        <Provider store={store}>
+          <Nav />
+        </Provider>
       );
     }
   }
@@ -55,6 +62,29 @@ export default class App extends React.Component {
     this.setState({ isLoadingComplete: true });
   };
 }
+
+const Nav = createStackNavigator(
+  {
+    Home: {
+      screen: Home
+    },
+    Roads: {
+      screen: Roads,
+      title: 'Home',
+      headerStyle: {
+        backgroundColor: '#0F68C9',
+      },
+      headerTintColor: '#fff',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+
+    RoadsMapPicker: Picker,
+    Rubbish: Rubbish
+  }
+);
+
 
 const styles = StyleSheet.create({
   container: {

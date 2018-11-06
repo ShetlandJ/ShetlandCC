@@ -1,14 +1,11 @@
-/* @flow */
-
 import React, { Component } from 'react';
-import Header from './Header';
-import Roads from '../Roads/Home';
-import Rubbish from '../Rubbish/Home';
-import Picker from '../Roads/Picker'
+import { createStore } from 'redux';
+import reducer from '../../reducers/placeReducer';
+import { connect } from 'react-redux'
+
+const store = createStore(reducer);
 
 import Menu from './Menu'
-
-import { createStackNavigator } from 'react-navigation'; // Version can be specified in package.json
 
 import {
   View,
@@ -17,7 +14,7 @@ import {
   Button
 } from 'react-native';
 
-export class Home extends Component {
+class Home extends Component {
 
   static navigationOptions = {
     title: 'Home',
@@ -32,49 +29,52 @@ export class Home extends Component {
 
   constructor(props) {
     super(props);
-    this.state = { isShowingText: true };
+    this.state = {
+      isShowingText: true
+    };
+  }
+
+  componentDidMount() {
+    return
   }
 
   render() {
+
+    console.log(store.getState());
+
+
     return (
-      <React.Fragment>
+      <View>
         <Menu
           navigation={this.props.navigation}
         />
-      </React.Fragment>
+        <Button
+          title="set address"
+          onPress={() => this.props.address('new address')}
+        />
+        <Text>{this.props.placeName}</Text>
+      </View>
     );
   }
 }
 
-
-const Nav = createStackNavigator(
-  {
-    Home: {
-      screen: Home
-    },
-    Roads: {
-      screen: Roads,
-      title: 'Home',
-      headerStyle: {
-        backgroundColor: '#0F68C9',
-      },
-      headerTintColor: '#fff',
-      headerTitleStyle: {
-        fontWeight: 'bold',
-      },
-    },
-
-    RoadsMapPicker: Picker,
-    Rubbish: Rubbish
-  }
-);
-
-
-export default class App extends React.Component {
-  render() {
-    return <Nav />;
+function mapStateToProps(state) {
+  return {
+    address: state.address
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    address: (value) => dispatch({
+      type: 'UPDATE_ADDRESS',
+      placeName: value
+    })
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
+
 
 const styles = StyleSheet.create({
   home: {

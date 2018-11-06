@@ -1,7 +1,10 @@
-import { Col, Row, Grid } from "react-native-easy-grid";
 import React, { Component } from 'react';
 import MenuItem from './MenuItem'
 import { TouchableHighlight } from 'react-native';
+import { createStore } from 'redux';
+import reducer from '../../reducers/placeReducer';
+
+const store = createStore(reducer);
 
 import {
   View,
@@ -19,6 +22,8 @@ export default class Menu extends Component {
   }
 
   render() {
+    console.log(store.getState());
+    
     const { navigate } = this.props.navigation;
 
     return (
