@@ -1,4 +1,4 @@
-import { UPDATE_ADDRESS } from '../actions/types';
+import { SET_ADDRESS } from '../actions/types';
 
 const initialState = {
   placeName: "Hello",
@@ -9,7 +9,7 @@ const addressReducer = (state = initialState, action) => {
   console.log(action);
   
   switch(action.type) {
-    case UPDATE_ADDRESS:
+    case SET_ADDRESS:
     return {
       ...state,
       placeName: action.placeName /* placeName was defined in your action creator */

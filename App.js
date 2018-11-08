@@ -7,6 +7,9 @@ import Home from './components/Home/Home';
 import Roads from './components/Roads/Home';
 import Rubbish from './components/Rubbish/Home';
 import Picker from './components/Roads/Picker'
+import SubmitPothole from './components/Roads/SubmitPothole'
+import Camera from './components/Roads/Camera'
+
 import { Provider } from 'react-redux'
 import reducer from './reducers/placeReducer';
 import { createStore } from 'redux'
@@ -81,6 +84,11 @@ const Nav = createStackNavigator(
     },
 
     RoadsMapPicker: Picker,
+    SubmitPothole: {
+      screen: SubmitPothole,
+      title: 'Confirm Location',
+    },
+    Camera: Camera,
     Rubbish: Rubbish
   }
 );

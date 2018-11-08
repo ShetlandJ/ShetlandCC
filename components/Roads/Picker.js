@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, Button } from 'react-native';
 import { Constants, MapView, Location, Permissions } from 'expo';
 import Spinner from '../Global/Spinner';
+import { connect } from 'react-redux'
 
-export default class Picker extends Component {
+class PotholePicker extends Component {
 
     static navigationOptions = {
         title: 'Pick location',
@@ -59,14 +60,21 @@ export default class Picker extends Component {
             .then((responseJson) => {
                 this.setState({ mapRegion });
 
-                this.setState({
-                    fullAddress: responseJson.results[0]['formatted_address']
-                })
+                if (responseJson.results[0]['formatted_address']) {
+
+                    this.props.address(responseJson.results[0]['formatted_address'])
+                    this.setState({
+                        fullAddress: responseJson.results[0]['formatted_address']
+                    })
+                }
+
 
             })
     }
 
     render() {
+
+        const { navigate } = this.props.navigation;
 
         if (this.state.loading) {
             return (
@@ -76,8 +84,8 @@ export default class Picker extends Component {
         } else if (!this.state.loading) {
 
             return (
-                <View style={styles.container}
-                >
+                <View style={styles.container}>
+
                     {
                         this.state.locationResult === null ?
                             <Text>Finding your current location...</Text> :
@@ -89,24 +97,26 @@ export default class Picker extends Component {
                                         style={{ alignSelf: 'stretch', height: 350 }}
                                         region={this.state.mapRegion}
                                         onRegionChangeComplete={this.getPlace}
+                                        mapType={'hybrid'}
+                                        zoomEnabled={true}
+                                        rotateEnabled={true}
                                     >
                                         <MapView.Marker
                                             coordinate={
                                                 this.state.mapRegion
                                             }
                                         />
-
                                     </MapView>
                     }
 
-                    <View>
-                        <Text style={styles.address}>
-                            Address:
-                            </Text>
-                        <Text>
-                            {this.state.fullAddress}
-                        </Text>
-                    </View>
+                    <Button
+                        title="Next"
+                        onPress={() => navigate('SubmitPothole')}
+                    />
+                    <Text style={styles.textContainer}>
+                        {this.props.placeName}
+                    </Text>
+
 
                 </View>
 
@@ -116,8 +126,27 @@ export default class Picker extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        placeName: state.placeName
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        address: (value) => dispatch({
+            type: 'SET_ADDRESS',
+            placeName: value
+        })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PotholePicker)
+
+
 const styles = StyleSheet.create({
-    container: {
+    textContainer: {
+        textAlign: 'center'
     },
     address: {
         fontSize: 20
